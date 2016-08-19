@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Quick Start - Spark 1.6.0 Documentation</title>
+        
+          <meta name="description" content="Quick start tutorial for Spark 1.6.0">
+        
+
+        
+
+        <style class="anchorjs"></style><link rel="stylesheet" href="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/bootstrap.css">
+        <style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/bootstrap-responsive.css">
+        <link rel="stylesheet" href="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/main.css">
+
+        <script src="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/ga.js" async="" type="text/javascript"></script><script src="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/modernizr-2.js"></script>
+
+        <link rel="stylesheet" href="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/pygments-default.css">
+
+        
+        <!-- Google analytics script -->
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-32518208-2']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+        </script>
+        
+
+    <script src="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/MathJax.js" async="" type="text/javascript"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+    <body><div style="display: none;" id="MathJax_Message"></div>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
+
+        <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+        <div class="navbar navbar-fixed-top" id="topbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="brand"><a href="http://spark.apache.org/docs/latest/index.html">
+                      <img src="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/spark-logo-hd.png" style="height:50px;"></a><span class="version">1.6.0</span>
+                    </div>
+                    <ul class="nav">
+                        <!--TODO(andyk): Add class="active" attribute to li some how.-->
+                        <li><a href="http://spark.apache.org/docs/latest/index.html">Overview</a></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Programming Guides<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="http://spark.apache.org/docs/latest/quick-start.html">Quick Start</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/programming-guide.html">Spark Programming Guide</a></li>
+                                <li class="divider"></li>
+                                <li><a href="http://spark.apache.org/docs/latest/streaming-programming-guide.html">Spark Streaming</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/sql-programming-guide.html">DataFrames, Datasets and SQL</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/mllib-guide.html">MLlib (Machine Learning)</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/graphx-programming-guide.html">GraphX (Graph Processing)</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/bagel-programming-guide.html">Bagel (Pregel on Spark)</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/sparkr.html">SparkR (R on Spark)</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">API Docs<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.package">Scala</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/api/java/index.html">Java</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/api/python/index.html">Python</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/api/R/index.html">R</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Deploying<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="http://spark.apache.org/docs/latest/cluster-overview.html">Overview</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/submitting-applications.html">Submitting Applications</a></li>
+                                <li class="divider"></li>
+                                <li><a href="http://spark.apache.org/docs/latest/spark-standalone.html">Spark Standalone</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/running-on-mesos.html">Mesos</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/running-on-yarn.html">YARN</a></li>
+                                <li class="divider"></li>
+                                <li><a href="http://spark.apache.org/docs/latest/ec2-scripts.html">Amazon EC2</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="http://spark.apache.org/docs/latest/api.html" class="dropdown-toggle" data-toggle="dropdown">More<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="http://spark.apache.org/docs/latest/configuration.html">Configuration</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/monitoring.html">Monitoring</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/tuning.html">Tuning Guide</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/job-scheduling.html">Job Scheduling</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/security.html">Security</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/hardware-provisioning.html">Hardware Provisioning</a></li>
+                                <li class="divider"></li>
+                                <li><a href="http://spark.apache.org/docs/latest/building-spark.html">Building Spark</a></li>
+                                <li><a href="https://cwiki.apache.org/confluence/display/SPARK/Contributing+to+Spark">Contributing to Spark</a></li>
+                                <li><a href="https://cwiki.apache.org/confluence/display/SPARK/Supplemental+Spark+Projects">Supplemental Projects</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!--<p class="navbar-text pull-right"><span class="version-text">v1.6.0</span></p>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="container-wrapper">
+
+            
+                <div class="content" id="content">
+                    
+                        <h1 id="quick-start" class="title">Quick Start<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#quick-start" aria-label="Anchor link for: quick start" data-anchorjs-icon=""></a></h1>
+                    
+
+                    <ul id="markdown-toc">
+  <li><a href="#interactive-analysis-with-the-spark-shell" id="markdown-toc-interactive-analysis-with-the-spark-shell">Interactive Analysis with the Spark Shell</a>    <ul>
+      <li><a href="#basics" id="markdown-toc-basics">Basics</a></li>
+      <li><a href="#more-on-rdd-operations" id="markdown-toc-more-on-rdd-operations">More on RDD Operations</a></li>
+      <li><a href="#caching" id="markdown-toc-caching">Caching</a></li>
+    </ul>
+  </li>
+  <li><a href="#self-contained-applications" id="markdown-toc-self-contained-applications">Self-Contained Applications</a></li>
+  <li><a href="#where-to-go-from-here" id="markdown-toc-where-to-go-from-here">Where to Go from Here</a></li>
+</ul>
+
+<p>This tutorial provides a quick introduction to using Spark. We will first introduce the API through Spark’s
+interactive shell (in Python or Scala),
+then show how to write applications in Java, Scala, and Python.
+See the <a href="http://spark.apache.org/docs/latest/programming-guide.html">programming guide</a> for a more complete reference.</p>
+
+<p>To follow along with this guide, first download a packaged release of Spark from the
+<a href="http://spark.apache.org/downloads.html">Spark website</a>. Since we won’t be using HDFS,
+you can download a package for any version of Hadoop.</p>
+
+<h1 id="interactive-analysis-with-the-spark-shell">Interactive Analysis with the Spark Shell<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#interactive-analysis-with-the-spark-shell" aria-label="Anchor link for: interactive analysis with the spark shell" data-anchorjs-icon=""></a></h1>
+
+<h2 id="basics">Basics<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#basics" aria-label="Anchor link for: basics" data-anchorjs-icon=""></a></h2>
+
+<p>Spark’s shell provides a simple way to learn the API, as well as a powerful tool to analyze data interactively.
+It is available in either Scala (which runs on the Java VM and is thus a good way to use existing Java libraries)
+or Python. Start it by running the following in the Spark directory:</p>
+
+<ul class="nav nav-tabs" data-tabs="tabs"><li class="active"><a class="tab_scala" href="#tab_scala_0"><b>Scala</b></a></li><li><a class="tab_python" href="#tab_python_0"><b>Python</b></a></li></ul><div class="codetabs tab-content">
+<div id="tab_scala_0" class="tab-pane active" data-lang="scala">
+
+    <pre><code>./bin/spark-shell
+</code></pre>
+
+    <p>Spark’s primary abstraction is a distributed collection of items 
+called a Resilient Distributed Dataset (RDD). RDDs can be created from 
+Hadoop InputFormats (such as HDFS files) or by transforming other RDDs. 
+Let’s make a new RDD from the text of the README file in the Spark 
+source directory:</p>
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">textFile</span> <span class="k">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="o">(</span><span class="s">"README.md"</span><span class="o">)</span>
+<span class="n">textFile</span><span class="k">:</span> <span class="kt">spark.RDD</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="nc">MappedRDD</span><span class="k">@</span><span class="mi">2</span><span class="n">ee9b6e3</span></code></pre></div>
+
+    <p>RDDs have <em><a href="http://spark.apache.org/docs/latest/programming-guide.html#actions">actions</a></em>, which return values, and <em><a href="http://spark.apache.org/docs/latest/programming-guide.html#transformations">transformations</a></em>, which return pointers to new RDDs. Let’s start with a few actions:</p>
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">textFile</span><span class="o">.</span><span class="n">count</span><span class="o">()</span> <span class="c1">// Number of items in this RDD</span>
+<span class="n">res0</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">126</span>
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">textFile</span><span class="o">.</span><span class="n">first</span><span class="o">()</span> <span class="c1">// First item in this RDD</span>
+<span class="n">res1</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">#</span> <span class="nc">Apache</span> <span class="nc">Spark</span></code></pre></div>
+
+    <p>Now let’s use a transformation. We will use the <a href="http://spark.apache.org/docs/latest/programming-guide.html#transformations"><code>filter</code></a> transformation to return a new RDD with a subset of the items in the file.</p>
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">linesWithSpark</span> <span class="k">=</span> <span class="n">textFile</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">"Spark"</span><span class="o">))</span>
+<span class="n">linesWithSpark</span><span class="k">:</span> <span class="kt">spark.RDD</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="nc">FilteredRDD</span><span class="k">@</span><span class="mi">7</span><span class="n">dd4af09</span></code></pre></div>
+
+    <p>We can chain together transformations and actions:</p>
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">textFile</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">"Spark"</span><span class="o">)).</span><span class="n">count</span><span class="o">()</span> <span class="c1">// How many lines contain "Spark"?</span>
+<span class="n">res3</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">15</span></code></pre></div>
+
+  </div>
+<div id="tab_python_0" class="tab-pane" data-lang="python">
+
+    <pre><code>./bin/pyspark
+</code></pre>
+
+    <p>Spark’s primary abstraction is a distributed collection of items 
+called a Resilient Distributed Dataset (RDD). RDDs can be created from 
+Hadoop InputFormats (such as HDFS files) or by transforming other RDDs. 
+Let’s make a new RDD from the text of the README file in the Spark 
+source directory:</p>
+
+    <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">textFile</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s">"README.md"</span><span class="p">)</span></code></pre></div>
+
+    <p>RDDs have <em><a href="http://spark.apache.org/docs/latest/programming-guide.html#actions">actions</a></em>, which return values, and <em><a href="http://spark.apache.org/docs/latest/programming-guide.html#transformations">transformations</a></em>, which return pointers to new RDDs. Let’s start with a few actions:</p>
+
+    <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">textFile</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="c"># Number of items in this RDD</span>
+<span class="mi">126</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">textFile</span><span class="o">.</span><span class="n">first</span><span class="p">()</span> <span class="c"># First item in this RDD</span>
+<span class="s">u'# Apache Spark'</span></code></pre></div>
+
+    <p>Now let’s use a transformation. We will use the <a href="http://spark.apache.org/docs/latest/programming-guide.html#transformations"><code>filter</code></a> transformation to return a new RDD with a subset of the items in the file.</p>
+
+    <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">linesWithSpark</span> <span class="o">=</span> <span class="n">textFile</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="s">"Spark"</span> <span class="ow">in</span> <span class="n">line</span><span class="p">)</span></code></pre></div>
+
+    <p>We can chain together transformations and actions:</p>
+
+    <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">textFile</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="s">"Spark"</span> <span class="ow">in</span> <span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="c"># How many lines contain "Spark"?</span>
+<span class="mi">15</span></code></pre></div>
+
+  </div>
+</div>
+
+<h2 id="more-on-rdd-operations">More on RDD Operations<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#more-on-rdd-operations" aria-label="Anchor link for: more on rdd operations" data-anchorjs-icon=""></a></h2>
+<p>RDD actions and transformations can be used for more complex 
+computations. Let’s say we want to find the line with the most words:</p>
+
+<ul class="nav nav-tabs" data-tabs="tabs"><li class="active"><a class="tab_scala" href="#tab_scala_1"><b>Scala</b></a></li><li><a class="tab_python" href="#tab_python_1"><b>Python</b></a></li></ul><div class="codetabs tab-content">
+<div id="tab_scala_1" class="tab-pane active" data-lang="scala">
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">textFile</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="n">size</span><span class="o">).</span><span class="n">reduce</span><span class="o">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">)</span> <span class="n">a</span> <span class="k">else</span> <span class="n">b</span><span class="o">)</span>
+<span class="n">res4</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">15</span></code></pre></div>
+
+    <p>This first maps a line to an integer value, creating a new RDD. <code>reduce</code> is called on that RDD to find the largest line count. The arguments to <code>map</code> and <code>reduce</code>
+ are Scala function literals (closures), and can use any language 
+feature or Scala/Java library. For example, we can easily call functions
+ declared elsewhere. We’ll use <code>Math.max()</code> function to make this code easier to understand:</p>
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">import</span> <span class="nn">java.lang.Math</span>
+<span class="k">import</span> <span class="nn">java.lang.Math</span>
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">textFile</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="n">size</span><span class="o">).</span><span class="n">reduce</span><span class="o">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Math</span><span class="o">.</span><span class="n">max</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">))</span>
+<span class="n">res5</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">15</span></code></pre></div>
+
+    <p>One common data flow pattern is MapReduce, as popularized by Hadoop. Spark can implement MapReduce flows easily:</p>
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">wordCounts</span> <span class="k">=</span> <span class="n">textFile</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">" "</span><span class="o">)).</span><span class="n">map</span><span class="o">(</span><span class="n">word</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">word</span><span class="o">,</span> <span class="mi">1</span><span class="o">)).</span><span class="n">reduceByKey</span><span class="o">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">)</span>
+<span class="n">wordCounts</span><span class="k">:</span> <span class="kt">spark.RDD</span><span class="o">[(</span><span class="kt">String</span>, <span class="kt">Int</span><span class="o">)]</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="nc">ShuffledAggregatedRDD</span><span class="k">@</span><span class="mi">71</span><span class="n">f027b8</span></code></pre></div>
+
+    <p>Here, we combined the <a href="http://spark.apache.org/docs/latest/programming-guide.html#transformations"><code>flatMap</code></a>, <a href="http://spark.apache.org/docs/latest/programming-guide.html#transformations"><code>map</code></a>, and <a href="http://spark.apache.org/docs/latest/programming-guide.html#transformations"><code>reduceByKey</code></a>
+ transformations to compute the per-word counts in the file as an RDD of
+ (String, Int) pairs. To collect the word counts in our shell, we can 
+use the <a href="http://spark.apache.org/docs/latest/programming-guide.html#actions"><code>collect</code></a> action:</p>
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">wordCounts</span><span class="o">.</span><span class="n">collect</span><span class="o">()</span>
+<span class="n">res6</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[(</span><span class="kt">String</span>, <span class="kt">Int</span><span class="o">)]</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">((</span><span class="n">means</span><span class="o">,</span><span class="mi">1</span><span class="o">),</span> <span class="o">(</span><span class="n">under</span><span class="o">,</span><span class="mi">2</span><span class="o">),</span> <span class="o">(</span><span class="k">this</span><span class="o">,</span><span class="mi">3</span><span class="o">),</span> <span class="o">(</span><span class="nc">Because</span><span class="o">,</span><span class="mi">1</span><span class="o">),</span> <span class="o">(</span><span class="nc">Python</span><span class="o">,</span><span class="mi">2</span><span class="o">),</span> <span class="o">(</span><span class="n">agree</span><span class="o">,</span><span class="mi">1</span><span class="o">),</span> <span class="o">(</span><span class="n">cluster</span><span class="o">.,</span><span class="mi">1</span><span class="o">),</span> <span class="o">...)</span></code></pre></div>
+
+  </div>
+<div id="tab_python_1" class="tab-pane" data-lang="python">
+
+    <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">textFile</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="k">else</span> <span class="n">b</span><span class="p">)</span>
+<span class="mi">15</span></code></pre></div>
+
+    <p>This first maps a line to an integer value, creating a new RDD. <code>reduce</code> is called on that RDD to find the largest line count. The arguments to <code>map</code> and <code>reduce</code> are Python <a href="https://docs.python.org/2/reference/expressions.html#lambda">anonymous functions (lambdas)</a>,
+but we can also pass any top-level Python function we want.
+For example, we’ll define a <code>max</code> function to make this code easier to understand:</p>
+
+    <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="o">...</span>     <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">:</span>
+<span class="o">...</span>         <span class="k">return</span> <span class="n">a</span>
+<span class="o">...</span>     <span class="k">else</span><span class="p">:</span>
+<span class="o">...</span>         <span class="k">return</span> <span class="n">b</span>
+<span class="o">...</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">textFile</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="nb">max</span><span class="p">)</span>
+<span class="mi">15</span></code></pre></div>
+
+    <p>One common data flow pattern is MapReduce, as popularized by Hadoop. Spark can implement MapReduce flows easily:</p>
+
+    <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">wordCounts</span> <span class="o">=</span> <span class="n">textFile</span><span class="o">.</span><span class="n">flatMap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">word</span><span class="p">:</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reduceByKey</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span></code></pre></div>
+
+    <p>Here, we combined the <a href="http://spark.apache.org/docs/latest/programming-guide.html#transformations"><code>flatMap</code></a>, <a href="http://spark.apache.org/docs/latest/programming-guide.html#transformations"><code>map</code></a>, and <a href="http://spark.apache.org/docs/latest/programming-guide.html#transformations"><code>reduceByKey</code></a>
+ transformations to compute the per-word counts in the file as an RDD of
+ (string, int) pairs. To collect the word counts in our shell, we can 
+use the <a href="http://spark.apache.org/docs/latest/programming-guide.html#actions"><code>collect</code></a> action:</p>
+
+    <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">wordCounts</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="p">[(</span><span class="s">u'and'</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="s">u'A'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">u'webpage'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">u'README'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">u'Note'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">u'"local"'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">u'variable'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="o">...</span><span class="p">]</span></code></pre></div>
+
+  </div>
+</div>
+
+<h2 id="caching">Caching<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#caching" aria-label="Anchor link for: caching" data-anchorjs-icon=""></a></h2>
+<p>Spark also supports pulling data sets into a cluster-wide in-memory 
+cache. This is very useful when data is accessed repeatedly, such as 
+when querying a small “hot” dataset or when running an iterative 
+algorithm like PageRank. As a simple example, let’s mark our <code>linesWithSpark</code> dataset to be cached:</p>
+
+<ul class="nav nav-tabs" data-tabs="tabs"><li class="active"><a class="tab_scala" href="#tab_scala_2"><b>Scala</b></a></li><li><a class="tab_python" href="#tab_python_2"><b>Python</b></a></li></ul><div class="codetabs tab-content">
+<div id="tab_scala_2" class="tab-pane active" data-lang="scala">
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">linesWithSpark</span><span class="o">.</span><span class="n">cache</span><span class="o">()</span>
+<span class="n">res7</span><span class="k">:</span> <span class="kt">spark.RDD</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="nc">FilteredRDD</span><span class="k">@</span><span class="mi">17</span><span class="n">e51082</span>
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">linesWithSpark</span><span class="o">.</span><span class="n">count</span><span class="o">()</span>
+<span class="n">res8</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">19</span>
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">linesWithSpark</span><span class="o">.</span><span class="n">count</span><span class="o">()</span>
+<span class="n">res9</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">19</span></code></pre></div>
+
+    <p>It may seem silly to use Spark to explore and cache a 100-line text file. The interesting part is
+that these same functions can be used on very large data sets, even when they are striped across
+tens or hundreds of nodes. You can also do this interactively by connecting <code>bin/spark-shell</code> to
+a cluster, as described in the <a href="http://spark.apache.org/docs/latest/programming-guide.html#initializing-spark">programming guide</a>.</p>
+
+  </div>
+<div id="tab_python_2" class="tab-pane" data-lang="python">
+
+    <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">linesWithSpark</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">linesWithSpark</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="mi">19</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">linesWithSpark</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="mi">19</span></code></pre></div>
+
+    <p>It may seem silly to use Spark to explore and cache a 100-line text file. The interesting part is
+that these same functions can be used on very large data sets, even when they are striped across
+tens or hundreds of nodes. You can also do this interactively by connecting <code>bin/pyspark</code> to
+a cluster, as described in the <a href="http://spark.apache.org/docs/latest/programming-guide.html#initializing-spark">programming guide</a>.</p>
+
+  </div>
+</div>
+
+<h1 id="self-contained-applications">Self-Contained Applications<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#self-contained-applications" aria-label="Anchor link for: self contained applications" data-anchorjs-icon=""></a></h1>
+<p>Suppose we wish to write a self-contained application using the Spark API. We will walk through a
+simple application in Scala (with sbt), Java (with Maven), and Python.</p>
+
+<ul class="nav nav-tabs" data-tabs="tabs"><li class="active"><a class="tab_scala" href="#tab_scala_3"><b>Scala</b></a></li><li class=""><a class="tab_java" href="#tab_java_3"><b>Java</b></a></li><li><a class="tab_python" href="#tab_python_3"><b>Python</b></a></li></ul><div class="codetabs tab-content">
+<div id="tab_scala_3" class="tab-pane active" data-lang="scala">
+
+    <p>We’ll create a very simple Spark application in Scala–so simple, in fact, that it’s
+named <code>SimpleApp.scala</code>:</p>
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="cm">/* SimpleApp.scala */</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.SparkContext</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.SparkContext._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.SparkConf</span>
+
+<span class="k">object</span> <span class="nc">SimpleApp</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">logFile</span> <span class="k">=</span> <span class="s">"YOUR_SPARK_HOME/README.md"</span> <span class="c1">// Should be some file on your system</span>
+    <span class="k">val</span> <span class="n">conf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SparkConf</span><span class="o">().</span><span class="n">setAppName</span><span class="o">(</span><span class="s">"Simple Application"</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">sc</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SparkContext</span><span class="o">(</span><span class="n">conf</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">logData</span> <span class="k">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="o">(</span><span class="n">logFile</span><span class="o">,</span> <span class="mi">2</span><span class="o">).</span><span class="n">cache</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">numAs</span> <span class="k">=</span> <span class="n">logData</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">"a"</span><span class="o">)).</span><span class="n">count</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">numBs</span> <span class="k">=</span> <span class="n">logData</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">"b"</span><span class="o">)).</span><span class="n">count</span><span class="o">()</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Lines with a: %s, Lines with b: %s"</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">numAs</span><span class="o">,</span> <span class="n">numBs</span><span class="o">))</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+    <p>Note that applications should define a <code>main()</code> method instead of extending <code>scala.App</code>.
+Subclasses of <code>scala.App</code> may not work correctly.</p>
+
+    <p>This program just counts the number of lines containing ‘a’ and the number containing ‘b’ in the
+Spark README. Note that you’ll need to replace YOUR_SPARK_HOME with the location where Spark is
+installed. Unlike the earlier examples with the Spark shell, which initializes its own SparkContext,
+we initialize a SparkContext as part of the program.</p>
+
+    <p>We pass the SparkContext constructor a 
+<a href="http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.SparkConf">SparkConf</a>
+object which contains information about our
+application.</p>
+
+    <p>Our application depends on the Spark API, so we’ll also include an sbt configuration file, 
+<code>simple.sbt</code>, which explains that Spark is a dependency. This file also adds a repository that 
+Spark depends on:</p>
+
+    <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">name</span> <span class="o">:=</span> <span class="s">"Simple Project"</span>
+
+<span class="n">version</span> <span class="o">:=</span> <span class="s">"1.0"</span>
+
+<span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">"2.10.5"</span>
+
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.apache.spark"</span> <span class="o">%%</span> <span class="s">"spark-core"</span> <span class="o">%</span> <span class="s">"1.6.0"</span></code></pre></div>
+
+    <p>For sbt to work correctly, we’ll need to layout <code>SimpleApp.scala</code> and <code>simple.sbt</code>
+according to the typical directory structure. Once that is in place, we can create a JAR package
+containing the application’s code, then use the <code>spark-submit</code> script to run our program.</p>
+
+    <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Your directory layout should look like this</span>
+<span class="nv">$ </span>find .
+.
+./simple.sbt
+./src
+./src/main
+./src/main/scala
+./src/main/scala/SimpleApp.scala
+
+<span class="c"># Package a jar containing your application</span>
+<span class="nv">$ </span>sbt package
+...
+<span class="o">[</span>info<span class="o">]</span> Packaging <span class="o">{</span>..<span class="o">}</span>/<span class="o">{</span>..<span class="o">}</span>/target/scala-2.10/simple-project_2.10-1.0.jar
+
+<span class="c"># Use spark-submit to run your application</span>
+<span class="nv">$ </span>YOUR_SPARK_HOME/bin/spark-submit <span class="se">\</span>
+  --class <span class="s2">"SimpleApp"</span> <span class="se">\</span>
+  --master <span class="nb">local</span><span class="o">[</span>4<span class="o">]</span> <span class="se">\</span>
+  target/scala-2.10/simple-project_2.10-1.0.jar
+...
+Lines with a: 46, Lines with b: 23</code></pre></div>
+
+  </div>
+<div id="tab_java_3" class="tab-pane" data-lang="java">
+    <p>This example will use Maven to compile an application JAR, but any similar build system will work.</p>
+
+    <p>We’ll create a very simple Spark application, <code>SimpleApp.java</code>:</p>
+
+    <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="cm">/* SimpleApp.java */</span>
+<span class="kn">import</span> <span class="nn">org.apache.spark.api.java.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.spark.SparkConf</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.spark.api.java.function.Function</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleApp</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">logFile</span> <span class="o">=</span> <span class="s">"YOUR_SPARK_HOME/README.md"</span><span class="o">;</span> <span class="c1">// Should be some file on your system</span>
+    <span class="n">SparkConf</span> <span class="n">conf</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">SparkConf</span><span class="o">().</span><span class="na">setAppName</span><span class="o">(</span><span class="s">"Simple Application"</span><span class="o">);</span>
+    <span class="n">JavaSparkContext</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">JavaSparkContext</span><span class="o">(</span><span class="n">conf</span><span class="o">);</span>
+    <span class="n">JavaRDD</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">logData</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">textFile</span><span class="o">(</span><span class="n">logFile</span><span class="o">).</span><span class="na">cache</span><span class="o">();</span>
+
+    <span class="kt">long</span> <span class="n">numAs</span> <span class="o">=</span> <span class="n">logData</span><span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="k">new</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;()</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="n">Boolean</span> <span class="nf">call</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"a"</span><span class="o">);</span> <span class="o">}</span>
+    <span class="o">}).</span><span class="na">count</span><span class="o">();</span>
+
+    <span class="kt">long</span> <span class="n">numBs</span> <span class="o">=</span> <span class="n">logData</span><span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="k">new</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;()</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="n">Boolean</span> <span class="nf">call</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"b"</span><span class="o">);</span> <span class="o">}</span>
+    <span class="o">}).</span><span class="na">count</span><span class="o">();</span>
+
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Lines with a: "</span> <span class="o">+</span> <span class="n">numAs</span> <span class="o">+</span> <span class="s">", lines with b: "</span> <span class="o">+</span> <span class="n">numBs</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+    <p>This program just counts the number of lines containing ‘a’ and the number containing ‘b’ in a text
+file. Note that you’ll need to replace YOUR_SPARK_HOME with the location where Spark is installed.
+As with the Scala example, we initialize a SparkContext, though we use the special
+<code>JavaSparkContext</code> class to get a Java-friendly one. We also create RDDs (represented by
+<code>JavaRDD</code>) and run transformations on them. Finally, we pass functions to Spark by creating classes
+that extend <code>spark.api.java.function.Function</code>. The
+<a href="http://spark.apache.org/docs/latest/programming-guide.html">Spark programming guide</a> describes these differences in more detail.</p>
+
+    <p>To build the program, we also write a Maven <code>pom.xml</code> file that lists Spark as a dependency.
+Note that Spark artifacts are tagged with a Scala version.</p>
+
+    <div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;project&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>edu.berkeley<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>simple-project<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+  <span class="nt">&lt;name&gt;</span>Simple Project<span class="nt">&lt;/name&gt;</span>
+  <span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;dependencies&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span> <span class="c">&lt;!-- Spark dependency --&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.spark<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>spark-core_2.10<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>1.6.0<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+  <span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;/project&gt;</span></code></pre></div>
+
+    <p>We lay out these files according to the canonical Maven directory structure:</p>
+
+    <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>find .
+./pom.xml
+./src
+./src/main
+./src/main/java
+./src/main/java/SimpleApp.java</code></pre></div>
+
+    <p>Now, we can package the application using Maven and execute it with <code>./bin/spark-submit</code>.</p>
+
+    <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Package a JAR containing your application</span>
+<span class="nv">$ </span>mvn package
+...
+<span class="o">[</span>INFO<span class="o">]</span> Building jar: <span class="o">{</span>..<span class="o">}</span>/<span class="o">{</span>..<span class="o">}</span>/target/simple-project-1.0.jar
+
+<span class="c"># Use spark-submit to run your application</span>
+<span class="nv">$ </span>YOUR_SPARK_HOME/bin/spark-submit <span class="se">\</span>
+  --class <span class="s2">"SimpleApp"</span> <span class="se">\</span>
+  --master <span class="nb">local</span><span class="o">[</span>4<span class="o">]</span> <span class="se">\</span>
+  target/simple-project-1.0.jar
+...
+Lines with a: 46, Lines with b: 23</code></pre></div>
+
+  </div>
+<div id="tab_python_3" class="tab-pane" data-lang="python">
+
+    <p>Now we will show how to write an application using the Python API (PySpark).</p>
+
+    <p>As an example, we’ll create a simple Spark application, <code>SimpleApp.py</code>:</p>
+
+    <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="sd">"""SimpleApp.py"""</span>
+<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkContext</span>
+
+<span class="n">logFile</span> <span class="o">=</span> <span class="s">"YOUR_SPARK_HOME/README.md"</span>  <span class="c"># Should be some file on your system</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="p">(</span><span class="s">"local"</span><span class="p">,</span> <span class="s">"Simple App"</span><span class="p">)</span>
+<span class="n">logData</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="n">logFile</span><span class="p">)</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+
+<span class="n">numAs</span> <span class="o">=</span> <span class="n">logData</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="s">'a'</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">numBs</span> <span class="o">=</span> <span class="n">logData</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="s">'b'</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Lines with a: </span><span class="si">%i</span><span class="s">, lines with b: </span><span class="si">%i</span><span class="s">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">numAs</span><span class="p">,</span> <span class="n">numBs</span><span class="p">))</span></code></pre></div>
+
+    <p>This program just counts the number of lines containing ‘a’ and the number containing ‘b’ in a
+text file.
+Note that you’ll need to replace YOUR_SPARK_HOME with the location where Spark is installed.
+As with the Scala and Java examples, we use a SparkContext to create RDDs.
+We can pass Python functions to Spark, which are automatically serialized along with any variables
+that they reference.
+For applications that use custom classes or third-party libraries, we can also add code
+dependencies to <code>spark-submit</code> through its <code>--py-files</code> argument by packaging them into a
+.zip file (see <code>spark-submit --help</code> for details).
+<code>SimpleApp</code> is simple enough that we do not need to specify any code dependencies.</p>
+
+    <p>We can run this application using the <code>bin/spark-submit</code> script:</p>
+
+    <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Use spark-submit to run your application</span>
+<span class="nv">$ </span>YOUR_SPARK_HOME/bin/spark-submit <span class="se">\</span>
+  --master <span class="nb">local</span><span class="o">[</span>4<span class="o">]</span> <span class="se">\</span>
+  SimpleApp.py
+...
+Lines with a: 46, Lines with b: 23</code></pre></div>
+
+  </div>
+</div>
+
+<h1 id="where-to-go-from-here">Where to Go from Here<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#where-to-go-from-here" aria-label="Anchor link for: where to go from here" data-anchorjs-icon=""></a></h1>
+<p>Congratulations on running your first Spark application!</p>
+
+<ul>
+  <li>For an in-depth overview of the API, start with the <a href="http://spark.apache.org/docs/latest/programming-guide.html">Spark programming guide</a>,
+or see “Programming Guides” menu for other components.</li>
+  <li>For running applications on a cluster, head to the <a href="http://spark.apache.org/docs/latest/cluster-overview.html">deployment overview</a>.</li>
+  <li>Finally, Spark includes several samples in the <code>examples</code> directory
+(<a href="https://github.com/apache/spark/tree/master/examples/src/main/scala/org/apache/spark/examples">Scala</a>,
+ <a href="https://github.com/apache/spark/tree/master/examples/src/main/java/org/apache/spark/examples">Java</a>,
+ <a href="https://github.com/apache/spark/tree/master/examples/src/main/python">Python</a>,
+ <a href="https://github.com/apache/spark/tree/master/examples/src/main/r">R</a>).
+You can run them as follows:</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># For Scala and Java, use run-example:</span>
+./bin/run-example SparkPi
+
+<span class="c"># For Python examples, use spark-submit directly:</span>
+./bin/spark-submit examples/src/main/python/pi.py
+
+<span class="c"># For R examples, use spark-submit directly:</span>
+./bin/spark-submit examples/src/main/r/dataframe.R</code></pre></div>
+
+
+
+                </div>
+            
+             <!-- /container -->
+        </div>
+
+        <script src="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/jquery-1.js"></script>
+        <script src="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/bootstrap.js"></script>
+        <script src="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/anchor.js"></script>
+        <script src="Quick%20Start%20-%20Spark%201.6.0%20Documentation_files/main.js"></script>
+
+        <!-- MathJax Section -->
+        <script type="text/x-mathjax-config;executed=true">
+            MathJax.Hub.Config({
+                TeX: { equationNumbers: { autoNumber: "AMS" } }
+            });
+        </script>
+        <script>
+            // Note that we load MathJax this way to work with local file (file://), HTTP and HTTPS.
+            // We could use "//cdn.mathjax...", but that won't support "file://".
+            (function(d, script) {
+                script = d.createElement('script');
+                script.type = 'text/javascript';
+                script.async = true;
+                script.onload = function(){
+                    MathJax.Hub.Config({
+                        tex2jax: {
+                            inlineMath: [ ["$", "$"], ["\\\\(","\\\\)"] ],
+                            displayMath: [ ["$$","$$"], ["\\[", "\\]"] ],
+                            processEscapes: true,
+                            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+                        }
+                    });
+                };
+                script.src = ('https:' == document.location.protocol ? 'https://' : 'http://') +
+                    'cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+                d.getElementsByTagName('head')[0].appendChild(script);
+            }(document));
+        </script>
+    
+
+</body></html>

@@ -1,0 +1,28 @@
+
+---------------------------------------------
+Author: Omid Mashayekhi <omidm@stanford.edu>
+---------------------------------------------
+
+The gradient operation in Logistic regression program written in Java.
+
+The -XX:CompileThreshold option directly passedto java during runtime is used
+to control the level of JIT compilation.  The Makefile shows how to set the
+options.  The default value for threshold seems to be 1; if a method is called
+one time then it is JIT compiled.  Threshold 1 means compile everything and
+threshold 0 means compile nothing.  
+
+Usage:
+  Gradient
+        <Int dimension>
+        <Int iteration_num>
+        <Float sample_num in million>
+
+Makefile options:
+    $ make                to build
+    $ make run            to run the example with default JIT threshold 
+    $ make run-par        to run parallel examples one tied to each core 
+    $ make run-nojit      to run the example with JIT disabled
+    $ make run-alljit     to run the example with JIT enabled for any method
+    $ make clean          clean generated .class files
+
+

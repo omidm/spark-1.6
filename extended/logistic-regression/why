@@ -1,0 +1,119 @@
+
+
+===========================================================================================================================
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+****A) Scala code:
+
+**1. run with default scala:
+
+$ $(SPARK_ROOT)/build/scala-2.10.5/bin/scala -bootclasspath $(COMPILED_DIR) $(CLASS) 10 50 0.34
+
+which results in:
+
+$ ps ax | grep java
+28072 pts/22   Sl+    3:08 /usr/lib/jvm/java-8-oracle/jre//bin/java -Xmx256M -Xms32M -Xbootclasspath/a:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/akka-actors.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/jline.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-actors.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-actors-migration.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-compiler.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-library.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scalap.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-reflect.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-swing.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/typesafe-config.jar -classpath "" -Dscala.home=/home/omidm/cloud/src/spark/build/scala-2.10.5 -Dscala.usejavacp=true scala.tools.nsc.MainGenericRunner -bootclasspath compiled/ Gradient 10 50 0.34
+
+for 50 iterations it takes 986ms (Average), 1468ms (First)
+
+
+**2. run with default scala but with -XX:CompileThreshold=1
+
+$ export JAVA_OPTS="-XX:CompileThreshold=1"; $(SPARK_ROOT)/build/scala-2.10.5/bin/scala -bootclasspath $(COMPILED_DIR) $(CLASS) 10 5  0.34
+
+which results in:
+
+$ ps ax | grep java
+28253 pts/22   Sl+    0:03 /usr/lib/jvm/java-8-oracle/jre//bin/java -XX:CompileThreshold=1 -Xbootclasspath/a:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/akka-actors.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/jline.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-actors.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-actors-migration.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-compiler.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-library.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scalap.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-reflect.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-swing.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/typesafe-config.jar -classpath "" -Dscala.home=/home/omidm/cloud/src/spark/build/scala-2.10.5 -Dscala.usejavacp=true scala.tools.nsc.MainGenericRunner -bootclasspath compiled/ Gradient 10 50 0.34
+
+for 50 iterations it takes 483ms (Average), 762ms (First)
+
+
+**3. run with default scala and set JAVA_OPTS to None
+
+$ export JAVA_OPTS=" "; $(SPARK_ROOT)/build/scala-2.10.5/bin/scala -bootclasspath $(COMPILED_DIR) $(CLASS) 10 50 0.34 
+
+which results in:
+
+$ ps ax | grep java
+ 28414 pts/22   Sl+    0:17 /usr/lib/jvm/java-8-oracle/jre//bin/java -Xbootclasspath/a:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/akka-actors.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/jline.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-actors.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-actors-migration.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-compiler.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-library.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scalap.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-reflect.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/scala-swing.jar:/home/omidm/cloud/src/spark/build/scala-2.10.5/lib/typesafe-config.jar -classpath "" -Dscala.home=/home/omidm/cloud/src/spark/build/scala-2.10.5 -Dscala.usejavacp=true scala.tools.nsc.MainGenericRunner -bootclasspath compiled/ Gradient 10 50 0.34
+
+
+for 50 iterations it takes 482ms (Average), 810ms (First)
+
+
+**4. run with java
+
+$ java -classpath $(SPARK_ROOT)/build/scala-2.10.5/lib/scala-library.jar:$(COMPILED_DIR) $(CLASS) 10 50 0.34
+
+which results in:
+
+$ ps ax | grep java
+java -classpath ../../../build/scala-2.10.5/lib/scala-library.jar:compiled/ Gradient 10 50 0.34
+
+for 50 iterations it takes 482ms (Average), 810ms (First)
+
+****************************************************************************************************************************
+CONCLUSION1: THE REASON I SAW THE SPEEDUP WHEN SETTING THE COMPILATIONTHRESHOLD WAS NOT BECAUSE OF THE HAVING BETTER JIT, SIMPLY BECAUSE IT OVER WROTE THE DEFAULT OPTIONS PASSED TO JAVA BY SCALA (-Xmx256M -Xms32M). CHANGING COMPILE THREASHOLD HAS NO EFFECT BY ITSELF
+****************************************************************************************************************************
+
+
+**5. run all all cores with java:
+
+for i in `seq 0 7`; do
+  taskset -c $i java -classpath ../../../build/scala-2.10.5/lib/scala-library.jar:compiled/ Gradient 10 50 0.34 &> core_$i &
+done
+
+
+for 50 iterations it takes 1506ms (Average), 2306ms (First)
+
+****************************************************************************************************************************
+CONCLUSION2: IT TAKES LONGER BECAUSE NOW ALL CORES SHARE L3, AND TWO THREADS SHARE L2.
+****************************************************************************************************************************
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+===========================================================================================================================
+
+
+
+===========================================================================================================================
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+****B) Java code written to shadow Scala code:
+
+**1. run with default java
+
+$ java -ea -classpath $(SPARK_ROOT)/build/scala-2.10.5/lib/scala-library.jar:. $(CLASS) 10 50 0.34
+
+for 50 iterations it takes 562ms (Average), 1459ms (First) but the average is higher than the ones after JIT that are around 504ms
+
+
+**2. run with java and -XX:CompileThreshold=1
+
+$ java -ea -classpath $(SPARK_ROOT)/build/scala-2.10.5/lib/scala-library.jar:. -XX:CompileThreshold=1 $(CLASS) 10 50 0.34
+
+for 50 iterations it takes 557ms (Average), 1589ms (First) but the average is higher than the ones after JIT that are around 501ms
+
+****************************************************************************************************************************
+CONCLUSION1: JIT IS NOT A FACTOR!
+****************************************************************************************************************************
+
+
+**3. run all all cores with java:
+
+for i in `seq 0 7`; do
+  taskset -c $i java -classpath ../../../build/scala-2.10.5/lib/scala-library.jar:. Gradient 10 50 0.34 &> core_$i &
+done
+
+
+for 50 iterations it takes 15025ms (Average), 4836ms (First)
+
+****************************************************************************************************************************
+CONCLUSION2: IT TAKES LONGER BECAUSE NOW ALL CORES SHARE L3, AND TWO THREADS SHARE L2.
+****************************************************************************************************************************
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+===========================================================================================================================
+
+

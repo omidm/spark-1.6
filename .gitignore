@@ -1,0 +1,12 @@
+target/
+*.jar
+
+dependency-reduced-pom.xml
+build/scala-2.10.5/
+build/zinc-0.3.5.3/
+build/apache-maven-3.3.3/
+python/lib/pyspark.zip
+
+logs/
+work/
+log-dir/

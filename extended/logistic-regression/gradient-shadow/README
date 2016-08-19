@@ -1,0 +1,25 @@
+
+---------------------------------------------
+Author: Omid Mashayekhi <omidm@stanford.edu>
+---------------------------------------------
+
+The gradient operation in Logistic regression program written in Java.
+The code is written to SHADOW the behaviour of compiled Scala code. It has the
+cost of box/unbox for map and zip operators for vector computations and map and
+reduce Spark operators. It also has the cost of memory allocation for
+intermediate data for map and reduce Spark operations, due to immutability of
+data in Spark. 
+
+Usage:
+  Gradient
+        <Int dimension>
+        <Int iteration_num>
+        <Float sample_num in million>
+
+Makefile options:
+    $ make                to build
+    $ make run            to run the example 
+    $ make run-par        to run parallel examples one tied to each core 
+    $ make clean          clean generated .class files
+
+

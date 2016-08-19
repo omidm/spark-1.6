@@ -1,0 +1,41 @@
+
+---------------------------------------------
+Author: Omid Mashayekhi <omidm@stanford.edu>
+---------------------------------------------
+
+The gradient operation in Logistic regression program written in "imperative"
+Scala. This version of code avoids the map and zip operators for vector
+computations. This way, the box/unbox operations related to vector add/mul/dot
+are removed. However, the box/unbox for map and reduce operations related to
+Spark remains in place and there is cost of memory allocation due to immutable
+data in Spark.
+
+Note that the default scala, lunches java with runtime arguments -Xmx256M and
+-Xms32M to set the max and min of the heap-size. That causes a slow down. If
+you want to get rid of it, either set the JAVA_OPTS to " ", or directly use
+java to run the compiled code. Makefile shows how to set the option for scala.
+
+The -XX:CompileThreshold as part of JAVA_OPTS could be used to control the
+threshold of JIT compilation. The Makefile shows how to use JAVA_OPTS with
+export. The default value for threshold is 10000; if a method is called 10000
+times then it is JIT compiled. Threshold 1 means compile everything and
+threshold 0 means compile nothing.  
+
+Note that setting any JAVA_OPTS forces the scala to not pass the heap size
+default options.
+
+Usage:
+  Gradient
+        <Int dimension>
+        <Int iteration_num>
+        <Float sample_num in million>
+
+Makefile options:
+    $ make                to build
+    $ make run            to run the example with default JIT threshold (10000)
+    $ make run-java       to run the example with java directly and not scala
+    $ make run-alljit     to run the example with JIT enabled for any function
+    $ make run-nojit      to run the example with JIT disabled
+    $ make clean          clean generated .class files
+
+

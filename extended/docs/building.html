@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Building Spark - Spark 1.6.0 Documentation</title>
+        
+
+        
+
+        <style class="anchorjs"></style><link rel="stylesheet" href="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/bootstrap.css">
+        <style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/bootstrap-responsive.css">
+        <link rel="stylesheet" href="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/main.css">
+
+        <script src="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/ga.js" async="" type="text/javascript"></script><script src="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/modernizr-2.js"></script>
+
+        <link rel="stylesheet" href="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/pygments-default.css">
+
+        
+        <!-- Google analytics script -->
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-32518208-2']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+        </script>
+        
+
+    <script src="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/MathJax.js" async="" type="text/javascript"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+    <body><div style="display: none;" id="MathJax_Message"></div>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
+
+        <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+        <div class="navbar navbar-fixed-top" id="topbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="brand"><a href="http://spark.apache.org/docs/latest/index.html">
+                      <img src="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/spark-logo-hd.png" style="height:50px;"></a><span class="version">1.6.0</span>
+                    </div>
+                    <ul class="nav">
+                        <!--TODO(andyk): Add class="active" attribute to li some how.-->
+                        <li><a href="http://spark.apache.org/docs/latest/index.html">Overview</a></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Programming Guides<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="http://spark.apache.org/docs/latest/quick-start.html">Quick Start</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/programming-guide.html">Spark Programming Guide</a></li>
+                                <li class="divider"></li>
+                                <li><a href="http://spark.apache.org/docs/latest/streaming-programming-guide.html">Spark Streaming</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/sql-programming-guide.html">DataFrames, Datasets and SQL</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/mllib-guide.html">MLlib (Machine Learning)</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/graphx-programming-guide.html">GraphX (Graph Processing)</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/bagel-programming-guide.html">Bagel (Pregel on Spark)</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/sparkr.html">SparkR (R on Spark)</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">API Docs<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.package">Scala</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/api/java/index.html">Java</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/api/python/index.html">Python</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/api/R/index.html">R</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Deploying<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="http://spark.apache.org/docs/latest/cluster-overview.html">Overview</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/submitting-applications.html">Submitting Applications</a></li>
+                                <li class="divider"></li>
+                                <li><a href="http://spark.apache.org/docs/latest/spark-standalone.html">Spark Standalone</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/running-on-mesos.html">Mesos</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/running-on-yarn.html">YARN</a></li>
+                                <li class="divider"></li>
+                                <li><a href="http://spark.apache.org/docs/latest/ec2-scripts.html">Amazon EC2</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="http://spark.apache.org/docs/latest/api.html" class="dropdown-toggle" data-toggle="dropdown">More<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="http://spark.apache.org/docs/latest/configuration.html">Configuration</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/monitoring.html">Monitoring</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/tuning.html">Tuning Guide</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/job-scheduling.html">Job Scheduling</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/security.html">Security</a></li>
+                                <li><a href="http://spark.apache.org/docs/latest/hardware-provisioning.html">Hardware Provisioning</a></li>
+                                <li class="divider"></li>
+                                <li><a href="http://spark.apache.org/docs/latest/building-spark.html">Building Spark</a></li>
+                                <li><a href="https://cwiki.apache.org/confluence/display/SPARK/Contributing+to+Spark">Contributing to Spark</a></li>
+                                <li><a href="https://cwiki.apache.org/confluence/display/SPARK/Supplemental+Spark+Projects">Supplemental Projects</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!--<p class="navbar-text pull-right"><span class="version-text">v1.6.0</span></p>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="container-wrapper">
+
+            
+                <div class="content" id="content">
+                    
+                        <h1 id="building-spark" class="title">Building Spark<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#building-spark" aria-label="Anchor link for: building spark" data-anchorjs-icon=""></a></h1>
+                    
+
+                    <ul id="markdown-toc">
+  <li><a href="#building-with-buildmvn" id="markdown-toc-building-with-buildmvn">Building with <code>build/mvn</code></a></li>
+  <li><a href="#building-a-runnable-distribution" id="markdown-toc-building-a-runnable-distribution">Building a Runnable Distribution</a></li>
+  <li><a href="#setting-up-mavens-memory-usage" id="markdown-toc-setting-up-mavens-memory-usage">Setting up Maven’s Memory Usage</a></li>
+  <li><a href="#specifying-the-hadoop-version" id="markdown-toc-specifying-the-hadoop-version">Specifying the Hadoop Version</a></li>
+  <li><a href="#building-with-hive-and-jdbc-support" id="markdown-toc-building-with-hive-and-jdbc-support">Building With Hive and JDBC Support</a></li>
+  <li><a href="#building-for-scala-211" id="markdown-toc-building-for-scala-211">Building for Scala 2.11</a></li>
+  <li><a href="#spark-tests-in-maven" id="markdown-toc-spark-tests-in-maven">Spark Tests in Maven</a></li>
+  <li><a href="#building-submodules-individually" id="markdown-toc-building-submodules-individually">Building submodules individually</a></li>
+  <li><a href="#continuous-compilation" id="markdown-toc-continuous-compilation">Continuous Compilation</a></li>
+  <li><a href="#building-spark-with-intellij-idea-or-eclipse" id="markdown-toc-building-spark-with-intellij-idea-or-eclipse">Building Spark with IntelliJ IDEA or Eclipse</a></li>
+  <li><a href="#running-java-8-test-suites" id="markdown-toc-running-java-8-test-suites">Running Java 8 Test Suites</a></li>
+  <li><a href="#building-for-pyspark-on-yarn" id="markdown-toc-building-for-pyspark-on-yarn">Building for PySpark on YARN</a></li>
+  <li><a href="#packaging-without-hadoop-dependencies-for-yarn" id="markdown-toc-packaging-without-hadoop-dependencies-for-yarn">Packaging without Hadoop Dependencies for YARN</a></li>
+  <li><a href="#building-with-sbt" id="markdown-toc-building-with-sbt">Building with SBT</a></li>
+  <li><a href="#testing-with-sbt" id="markdown-toc-testing-with-sbt">Testing with SBT</a></li>
+  <li><a href="#speeding-up-compilation-with-zinc" id="markdown-toc-speeding-up-compilation-with-zinc">Speeding up Compilation with Zinc</a></li>
+</ul>
+
+<p>Building Spark using Maven requires Maven 3.3.3 or newer and Java 7+.
+The Spark build can supply a suitable Maven binary; see below.</p>
+
+<h1 id="building-with-buildmvn">Building with <code>build/mvn</code><a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#building-with-buildmvn" aria-label="Anchor link for: building with buildmvn" data-anchorjs-icon=""></a></h1>
+
+<p>Spark now comes packaged with a self-contained Maven installation to 
+ease building and deployment of Spark from source located under the <code>build/</code> directory. This script will automatically download and setup all necessary build requirements (<a href="https://maven.apache.org/">Maven</a>, <a href="http://www.scala-lang.org/">Scala</a>, and <a href="https://github.com/typesafehub/zinc">Zinc</a>) locally within the <code>build/</code> directory itself. It honors any <code>mvn</code>
+ binary if present already, however, will pull down its own copy of 
+Scala and Zinc regardless to ensure proper version requirements are met.
+ <code>build/mvn</code> execution acts as a pass through to the <code>mvn</code> call allowing easy transition from previous build methods. As an example, one can build a version of Spark as follows:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">build/mvn -Pyarn -Phadoop-2.4 -Dhadoop.version<span class="o">=</span>2.4.0 -DskipTests clean package</code></pre></div>
+
+<p>Other build examples can be found below.</p>
+
+<p><strong>Note:</strong> When building on an encrypted filesystem (if 
+your home directory is encrypted, for example), then the Spark build 
+might fail with a “Filename too long” error. As a workaround, add the 
+following in the configuration args of the <code>scala-maven-plugin</code> in the project <code>pom.xml</code>:</p>
+
+<pre><code>&lt;arg&gt;-Xmax-classfile-name&lt;/arg&gt;
+&lt;arg&gt;128&lt;/arg&gt;
+</code></pre>
+
+<p>and in <code>project/SparkBuild.scala</code> add:</p>
+
+<pre><code>scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
+</code></pre>
+
+<p>to the <code>sharedSettings</code> val. See also <a href="https://github.com/apache/spark/pull/2883/files">this PR</a> if you are unsure of where to add these lines.</p>
+
+<h1 id="building-a-runnable-distribution">Building a Runnable Distribution<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#building-a-runnable-distribution" aria-label="Anchor link for: building a runnable distribution" data-anchorjs-icon=""></a></h1>
+
+<p>To create a Spark distribution like those distributed by the 
+<a href="http://spark.apache.org/downloads.html">Spark Downloads</a> page, and that is laid out so as 
+to be runnable, use <code>make-distribution.sh</code> in the project root directory. It can be configured 
+with Maven profile settings and so on like the direct Maven build. Example:</p>
+
+<pre><code>./make-distribution.sh --name custom-spark --tgz -Psparkr -Phadoop-2.4 -Phive -Phive-thriftserver -Pyarn
+</code></pre>
+
+<p>For more information on usage, run <code>./make-distribution.sh --help</code></p>
+
+<h1 id="setting-up-mavens-memory-usage">Setting up Maven’s Memory Usage<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#setting-up-mavens-memory-usage" aria-label="Anchor link for: setting up mavens memory usage" data-anchorjs-icon=""></a></h1>
+
+<p>You’ll need to configure Maven to use more memory than usual by setting <code>MAVEN_OPTS</code>. We recommend the following settings:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">MAVEN_OPTS</span><span class="o">=</span><span class="s2">"-Xmx2g -XX:MaxPermSize=512M -XX:ReservedCodeCacheSize=512m"</span></code></pre></div>
+
+<p>If you don’t run this, you may see errors like the following:</p>
+
+<pre><code>[INFO] Compiling 203 Scala sources and 9 Java sources to /Users/me/Development/spark/core/target/scala-2.10/classes...
+[ERROR] PermGen space -&gt; [Help 1]
+
+[INFO] Compiling 203 Scala sources and 9 Java sources to /Users/me/Development/spark/core/target/scala-2.10/classes...
+[ERROR] Java heap space -&gt; [Help 1]
+</code></pre>
+
+<p>You can fix this by setting the <code>MAVEN_OPTS</code> variable as discussed before.</p>
+
+<p><strong>Note:</strong></p>
+
+<ul>
+  <li>For Java 8 and above this step is not required.</li>
+  <li>If using <code>build/mvn</code> with no <code>MAVEN_OPTS</code> set, the script will automate this for you.</li>
+</ul>
+
+<h1 id="specifying-the-hadoop-version">Specifying the Hadoop Version<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#specifying-the-hadoop-version" aria-label="Anchor link for: specifying the hadoop version" data-anchorjs-icon=""></a></h1>
+
+<p>Because HDFS is not protocol-compatible across versions, if you want 
+to read from HDFS, you’ll need to build Spark against the specific HDFS 
+version in your environment. You can do this through the <code>hadoop.version</code>
+ property. If unset, Spark will build against Hadoop 2.2.0 by default. 
+Note that certain build profiles are required for particular Hadoop 
+versions:</p>
+
+<table class="table">
+  <thead>
+    <tr><th>Hadoop version</th><th>Profile required</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1.x to 2.1.x</td><td>hadoop-1</td></tr>
+    <tr><td>2.2.x</td><td>hadoop-2.2</td></tr>
+    <tr><td>2.3.x</td><td>hadoop-2.3</td></tr>
+    <tr><td>2.4.x</td><td>hadoop-2.4</td></tr>
+    <tr><td>2.6.x and later 2.x</td><td>hadoop-2.6</td></tr>
+  </tbody>
+</table>
+
+<p>For Apache Hadoop versions 1.x, Cloudera CDH “mr1” distributions, and other Hadoop versions without YARN, use:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Apache Hadoop 1.2.1</span>
+mvn -Dhadoop.version<span class="o">=</span>1.2.1 -Phadoop-1 -DskipTests clean package
+
+<span class="c"># Cloudera CDH 4.2.0 with MapReduce v1</span>
+mvn -Dhadoop.version<span class="o">=</span>2.0.0-mr1-cdh4.2.0 -Phadoop-1 -DskipTests clean package</code></pre></div>
+
+<p>You can enable the <code>yarn</code> profile and optionally set the <code>yarn.version</code> property if it is different from <code>hadoop.version</code>. Spark only supports YARN versions 2.2.0 and later.</p>
+
+<p>Examples:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Apache Hadoop 2.2.X</span>
+mvn -Pyarn -Phadoop-2.2 -DskipTests clean package
+
+<span class="c"># Apache Hadoop 2.3.X</span>
+mvn -Pyarn -Phadoop-2.3 -Dhadoop.version<span class="o">=</span>2.3.0 -DskipTests clean package
+
+<span class="c"># Apache Hadoop 2.4.X or 2.5.X</span>
+mvn -Pyarn -Phadoop-2.4 -Dhadoop.version<span class="o">=</span>VERSION -DskipTests clean package
+
+Versions of Hadoop after 2.5.X may or may not work with the -Phadoop-2.4 profile <span class="o">(</span>they were
+released after this version of Spark<span class="o">)</span>.
+
+<span class="c"># Different versions of HDFS and YARN.</span>
+mvn -Pyarn -Phadoop-2.3 -Dhadoop.version<span class="o">=</span>2.3.0 -Dyarn.version<span class="o">=</span>2.2.0 -DskipTests clean package</code></pre></div>
+
+<h1 id="building-with-hive-and-jdbc-support">Building With Hive and JDBC Support<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#building-with-hive-and-jdbc-support" aria-label="Anchor link for: building with hive and jdbc support" data-anchorjs-icon=""></a></h1>
+<p>To enable Hive integration for Spark SQL along with its JDBC server and CLI,
+add the <code>-Phive</code> and <code>Phive-thriftserver</code> profiles to your existing build options.
+By default Spark will build with Hive 0.13.1 bindings.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Apache Hadoop 2.4.X with Hive 13 support</span>
+mvn -Pyarn -Phadoop-2.4 -Dhadoop.version<span class="o">=</span>2.4.0 -Phive -Phive-thriftserver -DskipTests clean package</code></pre></div>
+
+<h1 id="building-for-scala-211">Building for Scala 2.11<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#building-for-scala-211" aria-label="Anchor link for: building for scala 211" data-anchorjs-icon=""></a></h1>
+<p>To produce a Spark package compiled with Scala 2.11, use the <code>-Dscala-2.11</code> property:</p>
+
+<pre><code>./dev/change-scala-version.sh 2.11
+mvn -Pyarn -Phadoop-2.4 -Dscala-2.11 -DskipTests clean package
+</code></pre>
+
+<p>Spark does not yet support its JDBC component for Scala 2.11.</p>
+
+<h1 id="spark-tests-in-maven">Spark Tests in Maven<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#spark-tests-in-maven" aria-label="Anchor link for: spark tests in maven" data-anchorjs-icon=""></a></h1>
+
+<p>Tests are run by default via the <a href="http://www.scalatest.org/user_guide/using_the_scalatest_maven_plugin">ScalaTest Maven plugin</a>.</p>
+
+<p>Some of the tests require Spark to be packaged first, so always run <code>mvn package</code> with <code>-DskipTests</code> the first time.  The following is an example of a correct (build, test) sequence:</p>
+
+<pre><code>mvn -Pyarn -Phadoop-2.3 -DskipTests -Phive -Phive-thriftserver clean package
+mvn -Pyarn -Phadoop-2.3 -Phive -Phive-thriftserver test
+</code></pre>
+
+<p>The ScalaTest plugin also supports running only a specific test suite as follows:</p>
+
+<pre><code>mvn -Dhadoop.version=... -DwildcardSuites=org.apache.spark.repl.ReplSuite test
+</code></pre>
+
+<h1 id="building-submodules-individually">Building submodules individually<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#building-submodules-individually" aria-label="Anchor link for: building submodules individually" data-anchorjs-icon=""></a></h1>
+
+<p>It’s possible to build Spark sub-modules using the <code>mvn -pl</code> option.</p>
+
+<p>For instance, you can build the Spark Streaming module using:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">mvn -pl :spark-streaming_2.10 clean install</code></pre></div>
+
+<p>where <code>spark-streaming_2.10</code> is the <code>artifactId</code> as defined in <code>streaming/pom.xml</code> file.</p>
+
+<h1 id="continuous-compilation">Continuous Compilation<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#continuous-compilation" aria-label="Anchor link for: continuous compilation" data-anchorjs-icon=""></a></h1>
+
+<p>We use the scala-maven-plugin which supports incremental and continuous compilation. E.g.</p>
+
+<pre><code>mvn scala:cc
+</code></pre>
+
+<p>should run continuous compilation (i.e. wait for changes). However, this has not been tested
+extensively. A couple of gotchas to note:</p>
+
+<ul>
+  <li>
+    <p>it only scans the paths <code>src/main</code> and <code>src/test</code> (see
+<a href="http://scala-tools.org/mvnsites/maven-scala-plugin/usage_cc.html">docs</a>), so it will only work
+from within certain submodules that have that structure.</p>
+  </li>
+  <li>
+    <p>you’ll typically need to run <code>mvn install</code> from the project root for compilation within
+specific submodules to work; this is because submodules that depend on other submodules do so via
+the <code>spark-parent</code> module).</p>
+  </li>
+</ul>
+
+<p>Thus, the full flow for running continuous-compilation of the <code>core</code> submodule may look more like:</p>
+
+<pre><code>$ mvn install
+$ cd core
+$ mvn scala:cc
+</code></pre>
+
+<h1 id="building-spark-with-intellij-idea-or-eclipse">Building Spark with IntelliJ IDEA or Eclipse<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#building-spark-with-intellij-idea-or-eclipse" aria-label="Anchor link for: building spark with intellij idea or eclipse" data-anchorjs-icon=""></a></h1>
+
+<p>For help in setting up IntelliJ IDEA or Eclipse for Spark development, and troubleshooting, refer to the
+<a href="https://cwiki.apache.org/confluence/display/SPARK/Useful+Developer+Tools#UsefulDeveloperTools-IDESetup">wiki page for IDE setup</a>.</p>
+
+<h1 id="running-java-8-test-suites">Running Java 8 Test Suites<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#running-java-8-test-suites" aria-label="Anchor link for: running java 8 test suites" data-anchorjs-icon=""></a></h1>
+
+<p>Running only Java 8 tests and nothing else.</p>
+
+<pre><code>mvn install -DskipTests -Pjava8-tests
+</code></pre>
+
+<p>or</p>
+
+<pre><code>sbt -Pjava8-tests java8-tests/test
+</code></pre>
+
+<p>Java 8 tests are run when <code>-Pjava8-tests</code> profile is enabled, they will run in spite of <code>-DskipTests</code>.
+For these tests to run your system must have a JDK 8 installation.
+If you have JDK 8 installed but it is not the system default, you can set JAVA_HOME to point to JDK 8 before running the tests.</p>
+
+<h1 id="building-for-pyspark-on-yarn">Building for PySpark on YARN<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#building-for-pyspark-on-yarn" aria-label="Anchor link for: building for pyspark on yarn" data-anchorjs-icon=""></a></h1>
+
+<p>PySpark on YARN is only supported if the jar is built with Maven. Further, there is a known problem
+with building this assembly jar on Red Hat based operating systems (see <a href="https://issues.apache.org/jira/browse/SPARK-1753">SPARK-1753</a>). If you wish to
+run PySpark on a YARN cluster with Red Hat installed, we recommend that you build the jar elsewhere,
+then ship it over to the cluster. We are investigating the exact cause for this.</p>
+
+<h1 id="packaging-without-hadoop-dependencies-for-yarn">Packaging without Hadoop Dependencies for YARN<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#packaging-without-hadoop-dependencies-for-yarn" aria-label="Anchor link for: packaging without hadoop dependencies for yarn" data-anchorjs-icon=""></a></h1>
+
+<p>The assembly jar produced by <code>mvn package</code> will, by 
+default, include all of Spark’s dependencies, including Hadoop and some 
+of its ecosystem projects. On YARN deployments, this causes multiple 
+versions of these to appear on executor classpaths: the version packaged
+ in the Spark assembly and the version on each node, included with <code>yarn.application.classpath</code>.  The <code>hadoop-provided</code> profile builds the assembly without including Hadoop-ecosystem projects, like ZooKeeper and Hadoop itself.</p>
+
+<h1 id="building-with-sbt">Building with SBT<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#building-with-sbt" aria-label="Anchor link for: building with sbt" data-anchorjs-icon=""></a></h1>
+
+<p>Maven is the official build tool recommended for packaging Spark, and is the <em>build of reference</em>.
+But SBT is supported for day-to-day development since it can provide much faster iterative
+compilation. More advanced developers may wish to use SBT.</p>
+
+<p>The SBT build is derived from the Maven POM files, and so the same Maven profiles and variables
+can be set to control the SBT build. For example:</p>
+
+<pre><code>build/sbt -Pyarn -Phadoop-2.3 assembly
+</code></pre>
+
+<p>To avoid the overhead of launching sbt each time you need to re-compile, you can launch sbt
+in interactive mode by running <code>build/sbt</code>, and then run all build commands at the command
+prompt. For more recommendations on reducing build time, refer to the
+<a href="https://cwiki.apache.org/confluence/display/SPARK/Useful+Developer+Tools#UsefulDeveloperTools-ReducingBuildTimes">wiki page</a>.</p>
+
+<h1 id="testing-with-sbt">Testing with SBT<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#testing-with-sbt" aria-label="Anchor link for: testing with sbt" data-anchorjs-icon=""></a></h1>
+
+<p>Some of the tests require Spark to be packaged first, so always run <code>build/sbt assembly</code> the first time.  The following is an example of a correct (build, test) sequence:</p>
+
+<pre><code>build/sbt -Pyarn -Phadoop-2.3 -Phive -Phive-thriftserver assembly
+build/sbt -Pyarn -Phadoop-2.3 -Phive -Phive-thriftserver test
+</code></pre>
+
+<p>To run only a specific test suite as follows:</p>
+
+<pre><code>build/sbt -Pyarn -Phadoop-2.3 -Phive -Phive-thriftserver "test-only org.apache.spark.repl.ReplSuite"
+</code></pre>
+
+<p>To run test suites of a specific sub project as follows:</p>
+
+<pre><code>build/sbt -Pyarn -Phadoop-2.3 -Phive -Phive-thriftserver core/test
+</code></pre>
+
+<h1 id="speeding-up-compilation-with-zinc">Speeding up Compilation with Zinc<a style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; padding-left: 0.375em;" class="anchorjs-link " href="#speeding-up-compilation-with-zinc" aria-label="Anchor link for: speeding up compilation with zinc" data-anchorjs-icon=""></a></h1>
+
+<p><a href="https://github.com/typesafehub/zinc">Zinc</a> is a long-running server version of SBT’s incremental
+compiler. When run locally as a background process, it speeds up builds of Scala-based projects
+like Spark. Developers who regularly recompile Spark with Maven will be the most interested in
+Zinc. The project site gives instructions for building and running <code>zinc</code>; OS X users can
+install it using <code>brew install zinc</code>.</p>
+
+<p>If using the <code>build/mvn</code> package <code>zinc</code> will automatically be downloaded and leveraged for all
+builds. This process will auto-start after the first time <code>build/mvn</code> is called and bind to port
+3030 unless the <code>ZINC_PORT</code> environment variable is set. The <code>zinc</code> process can subsequently be
+shut down at any time by running <code>build/zinc-&lt;version&gt;/bin/zinc -shutdown</code> and will automatically
+restart whenever <code>build/mvn</code> is called.</p>
+
+
+                </div>
+            
+             <!-- /container -->
+        </div>
+
+        <script src="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/jquery-1.js"></script>
+        <script src="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/bootstrap.js"></script>
+        <script src="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/anchor.js"></script>
+        <script src="Building%20Spark%20-%20Spark%201.6.0%20Documentation_files/main.js"></script>
+
+        <!-- MathJax Section -->
+        <script type="text/x-mathjax-config;executed=true">
+            MathJax.Hub.Config({
+                TeX: { equationNumbers: { autoNumber: "AMS" } }
+            });
+        </script>
+        <script>
+            // Note that we load MathJax this way to work with local file (file://), HTTP and HTTPS.
+            // We could use "//cdn.mathjax...", but that won't support "file://".
+            (function(d, script) {
+                script = d.createElement('script');
+                script.type = 'text/javascript';
+                script.async = true;
+                script.onload = function(){
+                    MathJax.Hub.Config({
+                        tex2jax: {
+                            inlineMath: [ ["$", "$"], ["\\\\(","\\\\)"] ],
+                            displayMath: [ ["$$","$$"], ["\\[", "\\]"] ],
+                            processEscapes: true,
+                            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+                        }
+                    });
+                };
+                script.src = ('https:' == document.location.protocol ? 'https://' : 'http://') +
+                    'cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+                d.getElementsByTagName('head')[0].appendChild(script);
+            }(document));
+        </script>
+    
+
+</body></html>
