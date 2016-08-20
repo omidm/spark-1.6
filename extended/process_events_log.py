@@ -30,12 +30,12 @@ parser.add_argument(
 parser.add_argument(
     "-wn", "--worker_num",
     dest="workernum",
-    default=25,
+    required=True,
     help="worker num")
 parser.add_argument(
     "-cn", "--core_num",
     dest="corenum",
-    default=8,
+    required=True,
     help="core num per worker")
 parser.add_argument(
     "-ti", "--truncate_index",
@@ -104,8 +104,8 @@ diffs        = []
 for line in f:
   if "SparkListenerJobStart" in line:
     regexp = '.*'
-    regexp += ',\"Job ID\":(\d+).*'
-    regexp += ',\"Submission Time\":(\d+).*'
+    regexp += '\"Job ID\":(\d+).*'
+    regexp += '\"Submission Time\":(\d+).*'
     tokens = re.findall(regexp, line)
     assert(len(tokens) == 1)
     assert(len(tokens[0]) == 2)
@@ -122,12 +122,12 @@ for line in f:
     ser_time    = 0
   elif "SparkListenerTaskEnd" in line:
     regexp = '.*'
-    regexp += ',\"Launch Time\":(\d+).*'
-    regexp += ',\"Finish Time\":(\d+).*'
-    regexp += ',\"Executor Deserialize Time\":(\d+).*'
-    regexp += ',\"Executor Run Time\":(\d+).*'
-    regexp += ',\"JVM GC Time\":(\d+).*'
-    regexp += ',\"Result Serialization Time\":(\d+).*'
+    regexp += '\"Launch Time\":(\d+).*'
+    regexp += '\"Finish Time\":(\d+).*'
+    regexp += '\"Executor Deserialize Time\":(\d+).*'
+    regexp += '\"Executor Run Time\":(\d+).*'
+    regexp += '\"JVM GC Time\":(\d+).*'
+    regexp += '\"Result Serialization Time\":(\d+).*'
     tokens = re.findall(regexp, line)
     assert(len(tokens) == 1)
     assert(len(tokens[0]) == 6)
@@ -146,8 +146,8 @@ for line in f:
     diffs.append((end - start) - (dser + exe + ser));
   elif "SparkListenerStageCompleted" in line:
     regexp = '.*'
-    regexp += ',\"Submission Time\":(\d+).*'
-    regexp += ',\"Completion Time\":(\d+).*'
+    regexp += '\"Submission Time\":(\d+).*'
+    regexp += '\"Completion Time\":(\d+).*'
     tokens = re.findall(regexp, line)
     assert(len(tokens) == 1)
     assert(len(tokens[0]) == 2)
@@ -157,8 +157,8 @@ for line in f:
     stage_time += (end - start)
   elif "SparkListenerJobEnd" in line:
     regexp = '.*'
-    regexp += ',\"Job ID\":(\d+).*'
-    regexp += ',\"Completion Time\":(\d+).*'
+    regexp += '\"Job ID\":(\d+).*'
+    regexp += '\"Completion Time\":(\d+).*'
     tokens = re.findall(regexp, line)
     assert(len(tokens) == 1)
     assert(len(tokens[0]) == 2)
