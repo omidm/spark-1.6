@@ -8,7 +8,7 @@
 # US West (Oregon) Region
 EC2_LOCATION                    = 'us-west-2'
 UBUNTU_AMI                      = 'ami-fa9cf1ca'
-SPARK_AMI                       = 'ami-0ce5166c'
+SPARK_AMI                       = 'ami-8c73a2ec'
 KEY_NAME                        = 'omidm-sing-key-pair-us-west-2'
 MASTER_INSTANCE_TYPE            = 'c3.4xlarge'
 SLAVE_INSTANCE_TYPE             = 'c3.2xlarge'
@@ -23,7 +23,7 @@ SLAVE_NUM                       = 100
 # Spark configurations
 SLAVE_CORE_NUM                  = 8
 EXECUTOR_MEMORY                 = '12g'
-APPLICATION                     = 'stencil-1d' # 'lr' 'stencil-1d' 'k-means' 
+APPLICATION                     = 'lr' # 'lr' 'stencil-1d' 'k-means' 
 DEACTIVATE_EVENT_LOGING         = False
 ACTIVATE_SPARK_INFO_LOGING      = False
 # RUN_WITH_TASKSET              = False

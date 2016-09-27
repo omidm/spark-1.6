@@ -15,7 +15,7 @@ STD_OUT_LOG                = 'ec2_log.txt'
 OUTPUT_PATH                = 'output/'
 
 # Path configuration
-SPARK_ROOT                 = '~/cloud/src/spark/'
+SPARK_ROOT                 = '~/cloud/src/spark-1.6/'
 REL_EVENT_LOG_DIR          = 'log-dir/'
 
 
