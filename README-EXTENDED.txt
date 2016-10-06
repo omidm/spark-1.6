@@ -30,7 +30,12 @@ Please refer to: extended/docs/[overview, building].html
 
     $ build/mvn -DskipTests clean package
 
-   Note: You may need to install Java (7+) first:
+   Note: You may need to install Java (7+) first; for Ubuntu 16.04:
+
+    $ sudo apt-get install openjdk-8-jdk
+    $ sudo apt-get install openjdk-8-jre
+
+   On Ubuntu 12.04, you need the older versions:
 
     $ sudo apt-get install openjdk-7-jdk
     $ sudo apt-get install openjdk-7-jre
