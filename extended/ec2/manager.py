@@ -53,7 +53,7 @@ parser.add_argument(
     "-p", "--print",
     dest="printdns",
     action="store_true",
-    help="print controller and slaves dns")
+    help="print controller and subordinates dns")
 parser.add_argument(
     "-w", "--wake_up",
     dest="wakeup",
@@ -63,18 +63,18 @@ parser.add_argument(
     "-o", "--only_submit",
     dest="onlysubmit",
     action="store_true",
-    help="only submit the application to master, master and workers are already up")
+    help="only submit the application to main, main and workers are already up")
 
 parser.add_argument(
-    "-mdns", "--master_dns",
-    dest="masterdns",
+    "-mdns", "--main_dns",
+    dest="maindns",
     default="X-X-X-X",
-    help="master dns")
+    help="main dns")
 parser.add_argument(
-    "-mpdns", "--master_private_dns",
-    dest="masterprivatedns",
+    "-mpdns", "--main_private_dns",
+    dest="mainprivatedns",
     default="X-X-X-X",
-    help="master private dns")
+    help="main private dns")
 parser.add_argument(
     "-pdns", "--use_private",
     dest="useprivate",
@@ -133,51 +133,51 @@ elif (args.start or args.end or args.download or args.clean or args.printdns or 
       config.EC2_LOCATION,
       placement_group=config.PLACEMENT_GROUP);
 
-  if (not args.masterdns == "X-X-X-X"):
-    master_dns   = args.masterdns
-    master_p_dns = args.masterprivatedns
+  if (not args.maindns == "X-X-X-X"):
+    main_dns   = args.maindns
+    main_p_dns = args.mainprivatedns
   else:
     mdnss = ec2.get_dns_names(
         config.EC2_LOCATION,
         placement_group=config.PLACEMENT_GROUP,
         instance_type=config.MASTER_INSTANCE_TYPE);
-    master_dns   = mdnss["public"][0]
-    master_p_dns = mdnss["private"][0]
+    main_dns   = mdnss["public"][0]
+    main_p_dns = mdnss["private"][0]
   
-  slave_dnss = list(dns_names["public"])
-  slave_dnss.remove(master_dns)
+  subordinate_dnss = list(dns_names["public"])
+  subordinate_dnss.remove(main_dns)
   
   if (not args.useprivate):
-    master_p_dns = master_dns
-    slave_p_dnss = list(slave_dnss)
+    main_p_dns = main_dns
+    subordinate_p_dnss = list(subordinate_dnss)
   else:
-    assert(not master_p_dns == "X-X-X-X") 
-    slave_p_dnss = list(dns_names["private"])
-    slave_p_dnss.remove(master_p_dns)
+    assert(not main_p_dns == "X-X-X-X") 
+    subordinate_p_dnss = list(dns_names["private"])
+    subordinate_p_dnss.remove(main_p_dns)
 
   if (args.printdns):
-    print "Master DNS:         " + master_dns
-    print "Master Private DNS: " + master_p_dns
-    print "Slave DNSs:           " + str(slave_dnss)
-    print "Slave Private DNSs:   " + str(slave_p_dnss)
+    print "Main DNS:         " + main_dns
+    print "Main Private DNS: " + main_p_dns
+    print "Subordinate DNSs:           " + str(subordinate_dnss)
+    print "Subordinate Private DNSs:   " + str(subordinate_p_dnss)
   
   if (args.wakeup):
-    utils.test_nodes(slave_dnss + [master_dns])
+    utils.test_nodes(subordinate_dnss + [main_dns])
    
   if (args.start):
-    utils.start_experiment(master_dns, master_p_dns, slave_dnss)
+    utils.start_experiment(main_dns, main_p_dns, subordinate_dnss)
   
   if(args.download):
-    utils.collect_logs(master_dns, slave_dnss)
+    utils.collect_logs(main_dns, subordinate_dnss)
   
   if (args.end):
-    utils.stop_experiment(master_dns, slave_dnss)
+    utils.stop_experiment(main_dns, subordinate_dnss)
 
   if (args.clean):
-    utils.clean_logs(master_dns, slave_dnss)
+    utils.clean_logs(main_dns, subordinate_dnss)
   
   if (args.onlysubmit):
-    utils.submit_application(master_dns, master_p_dns)
+    utils.submit_application(main_dns, main_p_dns)
   
 else :
   print "\n** Provide an action to perform!\n"
