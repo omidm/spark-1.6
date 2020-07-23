@@ -74,104 +74,104 @@ else:
 
 
 
-def start_experiment(master_dns, master_p_dns, slave_dnss):
-  assert(config.SLAVE_NUM <= len(slave_dnss))
+def start_experiment(main_dns, main_p_dns, subordinate_dnss):
+  assert(config.SLAVE_NUM <= len(subordinate_dnss))
 
-  start_master(master_dns);
+  start_main(main_dns);
 
   for idx in range(0, config.SLAVE_NUM):
-    dns = slave_dnss[idx]
-    start_slave(master_p_dns, dns, idx + 1);
+    dns = subordinate_dnss[idx]
+    start_subordinate(main_p_dns, dns, idx + 1);
 
   time.sleep(10)
-  submit_application(master_dns, master_p_dns);
+  submit_application(main_dns, main_p_dns);
 
 
-def start_master(master_dns):
-  master_command  = 'cd ' + SPARK_ROOT + ';'
-  master_command += 'cp conf/log4j.properties.template conf/log4j.properties;'
+def start_main(main_dns):
+  main_command  = 'cd ' + SPARK_ROOT + ';'
+  main_command += 'cp conf/log4j.properties.template conf/log4j.properties;'
   if (not config.ACTIVATE_SPARK_INFO_LOGING):
-    master_command += 'sed -i \'s/log4j.rootCategory=INFO/log4j.rootCategory=WARN/g\' conf/log4j.properties;' 
-  master_command += './sbin/start-master.sh'
-  master_command += ' &> ' + STD_OUT_LOG
+    main_command += 'sed -i \'s/log4j.rootCategory=INFO/log4j.rootCategory=WARN/g\' conf/log4j.properties;' 
+  main_command += './sbin/start-main.sh'
+  main_command += ' &> ' + STD_OUT_LOG
 
-  print '** Starting master: ' + master_dns
+  print '** Starting main: ' + main_dns
   subprocess.Popen(['ssh', '-q', '-i', config.PRIVATE_KEY,
       '-o', 'UserKnownHostsFile=/dev/null',
       '-o', 'StrictHostKeyChecking=no',
-      'ubuntu@' + master_dns, master_command])
+      'ubuntu@' + main_dns, main_command])
 
 
 
-def start_slave(master_p_dns, slave_dns, num):
-  slave_command =  'cd ' + SPARK_ROOT + ';'
-  slave_command += 'cp conf/log4j.properties.template conf/log4j.properties;'
+def start_subordinate(main_p_dns, subordinate_dns, num):
+  subordinate_command =  'cd ' + SPARK_ROOT + ';'
+  subordinate_command += 'cp conf/log4j.properties.template conf/log4j.properties;'
   if (not config.ACTIVATE_SPARK_INFO_LOGING):
-    slave_command += 'sed -i \'s/log4j.rootCategory=INFO/log4j.rootCategory=WARN/g\' conf/log4j.properties;' 
-  slave_command += './sbin/start-slave.sh '
-  slave_command += 'spark://' + master_p_dns +':7077 '
-  slave_command += ' -c ' + str(config.SLAVE_CORE_NUM)
-  slave_command += ' &> ' + str(num) + '_' + STD_OUT_LOG
+    subordinate_command += 'sed -i \'s/log4j.rootCategory=INFO/log4j.rootCategory=WARN/g\' conf/log4j.properties;' 
+  subordinate_command += './sbin/start-subordinate.sh '
+  subordinate_command += 'spark://' + main_p_dns +':7077 '
+  subordinate_command += ' -c ' + str(config.SLAVE_CORE_NUM)
+  subordinate_command += ' &> ' + str(num) + '_' + STD_OUT_LOG
 
-  print '** Starting slave: ' + str(num)
+  print '** Starting subordinate: ' + str(num)
   subprocess.Popen(['ssh', '-q', '-i', config.PRIVATE_KEY,
       '-o', 'UserKnownHostsFile=/dev/null',
       '-o', 'StrictHostKeyChecking=no',
-      'ubuntu@' + slave_dns, slave_command])
+      'ubuntu@' + subordinate_dns, subordinate_command])
 
 
-def submit_application(master_dns, master_p_dns):
-  master_command  = 'cd ' + SPARK_ROOT + ';'
-  master_command += 'mkdir -p ' + REL_EVENT_LOG_DIR + ';'
-  master_command += './bin/spark-submit '
-  master_command += ' --class ' + APP_MAIN_CLASS 
-  master_command += ' --master spark://' + master_p_dns +':7077'
-  master_command += ' --deploy-mode client '
-  master_command += ' --executor-memory ' + config.EXECUTOR_MEMORY
+def submit_application(main_dns, main_p_dns):
+  main_command  = 'cd ' + SPARK_ROOT + ';'
+  main_command += 'mkdir -p ' + REL_EVENT_LOG_DIR + ';'
+  main_command += './bin/spark-submit '
+  main_command += ' --class ' + APP_MAIN_CLASS 
+  main_command += ' --main spark://' + main_p_dns +':7077'
+  main_command += ' --deploy-mode client '
+  main_command += ' --executor-memory ' + config.EXECUTOR_MEMORY
   if (not config.DEACTIVATE_EVENT_LOGING):
-    master_command += ' --conf spark.eventLog.enabled=true '
-    master_command += ' --conf spark.eventLog.dir=' + REL_EVENT_LOG_DIR
-  master_command += ' ' + REL_APP_JAR
-  master_command += ' ' + APP_OPTIONS
-  master_command += ' &>> ' + STD_OUT_LOG
+    main_command += ' --conf spark.eventLog.enabled=true '
+    main_command += ' --conf spark.eventLog.dir=' + REL_EVENT_LOG_DIR
+  main_command += ' ' + REL_APP_JAR
+  main_command += ' ' + APP_OPTIONS
+  main_command += ' &>> ' + STD_OUT_LOG
 
   print '** Submitting application **'
   subprocess.Popen(['ssh', '-q', '-i', config.PRIVATE_KEY,
       '-o', 'UserKnownHostsFile=/dev/null',
       '-o', 'StrictHostKeyChecking=no',
-      'ubuntu@' + master_dns, master_command])
+      'ubuntu@' + main_dns, main_command])
 
 
-def stop_experiment(master_dns, slave_dnss):
+def stop_experiment(main_dns, subordinate_dnss):
 
-  stop_master(master_dns);
+  stop_main(main_dns);
 
   num = 0
-  for dns in slave_dnss:
+  for dns in subordinate_dnss:
     num += 1
-    stop_slave(dns, num);
+    stop_subordinate(dns, num);
 
 
-def stop_master(master_dns):
-  master_command  = 'cd ' + SPARK_ROOT + ';'
-  master_command += './sbin/stop-master.sh'
+def stop_main(main_dns):
+  main_command  = 'cd ' + SPARK_ROOT + ';'
+  main_command += './sbin/stop-main.sh'
 
-  print '** Stopping master: ' + master_dns
+  print '** Stopping main: ' + main_dns
   subprocess.Popen(['ssh', '-q', '-i', config.PRIVATE_KEY,
       '-o', 'UserKnownHostsFile=/dev/null',
       '-o', 'StrictHostKeyChecking=no',
-      'ubuntu@' + master_dns, master_command])
+      'ubuntu@' + main_dns, main_command])
 
 
-def stop_slave(slave_dns, num):
-  slave_command  = 'cd ' + SPARK_ROOT + ';'
-  slave_command += './sbin/stop-slave.sh'
+def stop_subordinate(subordinate_dns, num):
+  subordinate_command  = 'cd ' + SPARK_ROOT + ';'
+  subordinate_command += './sbin/stop-subordinate.sh'
 
-  print '** Stopping slave: ' + str(num)
+  print '** Stopping subordinate: ' + str(num)
   subprocess.Popen(['ssh', '-q', '-i', config.PRIVATE_KEY,
       '-o', 'UserKnownHostsFile=/dev/null',
       '-o', 'StrictHostKeyChecking=no',
-      'ubuntu@' + slave_dns, slave_command])
+      'ubuntu@' + subordinate_dns, subordinate_command])
 
 
 def test_nodes(node_dnss):
@@ -188,7 +188,7 @@ def test_nodes(node_dnss):
         'ubuntu@' + dns, command])
 
 
-def collect_logs(master_dns, slave_dnss):
+def collect_logs(main_dns, subordinate_dnss):
 
   subprocess.call(['rm', '-rf', OUTPUT_PATH])
   subprocess.call(['mkdir', '-p', OUTPUT_PATH])
@@ -196,16 +196,16 @@ def collect_logs(master_dns, slave_dnss):
   subprocess.Popen(['scp', '-q', '-r', '-i', config.PRIVATE_KEY,
       '-o', 'UserKnownHostsFile=/dev/null',
       '-o', 'StrictHostKeyChecking=no',
-      'ubuntu@' + master_dns + ':' + SPARK_ROOT + STD_OUT_LOG,
+      'ubuntu@' + main_dns + ':' + SPARK_ROOT + STD_OUT_LOG,
       OUTPUT_PATH])
 
   subprocess.Popen(['scp', '-q', '-r', '-i', config.PRIVATE_KEY,
       '-o', 'UserKnownHostsFile=/dev/null',
       '-o', 'StrictHostKeyChecking=no',
-      'ubuntu@' + master_dns + ':' + SPARK_ROOT + REL_EVENT_LOG_DIR,
+      'ubuntu@' + main_dns + ':' + SPARK_ROOT + REL_EVENT_LOG_DIR,
       OUTPUT_PATH])
 
-  for dns in slave_dnss:
+  for dns in subordinate_dnss:
     subprocess.Popen(['scp', '-q', '-r', '-i', config.PRIVATE_KEY,
         '-o', 'UserKnownHostsFile=/dev/null',
         '-o', 'StrictHostKeyChecking=no',
@@ -219,21 +219,21 @@ def collect_logs(master_dns, slave_dnss):
         OUTPUT_PATH])
 
 
-def clean_logs(master_dns, slave_dnss):
+def clean_logs(main_dns, subordinate_dnss):
   command  =  'rm -rf ' + SPARK_ROOT + '*' + STD_OUT_LOG + ';'
   command +=  'rm -rf ' + SPARK_ROOT + REL_EVENT_LOG_DIR + ';'
   command +=  'rm -rf ' + SPARK_ROOT + 'work/;'
   command +=  'rm -rf ' + SPARK_ROOT + 'logs/;'
 
-  print '** Cleaning master: ' + master_dns
+  print '** Cleaning main: ' + main_dns
   subprocess.Popen(['ssh', '-q', '-i', config.PRIVATE_KEY,
       '-o', 'UserKnownHostsFile=/dev/null',
       '-o', 'StrictHostKeyChecking=no',
-      'ubuntu@' + master_dns, command])
+      'ubuntu@' + main_dns, command])
 
 
-  for dns in slave_dnss:
-    print '** Cleaning slave: ' + dns
+  for dns in subordinate_dnss:
+    print '** Cleaning subordinate: ' + dns
     subprocess.Popen(['ssh', '-q', '-i', config.PRIVATE_KEY,
         '-o', 'UserKnownHostsFile=/dev/null',
         '-o', 'StrictHostKeyChecking=no',
